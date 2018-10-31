@@ -1,0 +1,16 @@
+:8080 {
+ root /share
+ timeouts none
+ gzip
+ filemanager / /share {
+  database  /db/filemanager.db
+ }
+}
+
+:80 {
+ root /share
+ timeouts none
+ gzip
+ browse
+ basicauth / admin admin
+}
