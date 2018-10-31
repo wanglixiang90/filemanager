@@ -1,0 +1,32 @@
+
+# clone github
+git clone https://github.com/wanglixiang90/filemanager.git
+
+# 构建docker容器
+docker build -t you_tag/filemanager .
+
+# 启动filemanager容器
+docker run -d --name filebrowser --restart=always \
+-p 80:80 -p 8080:8080 -v /you/share:/share \
+you_tag/filemanager
+
+80 web文件浏览下载
+8080 web文件上传管理
+
+# 默认配置文件 /Caddyfile
+:8080 {
+ root /share
+ timeouts none
+ gzip
+ filemanager / /share {    # web文件管理器
+  database  /db/filemanager.db
+ }
+}
+
+:80 {
+ root /share
+ timeouts none
+ gzip
+ browse
+ basicauth / admin admin   # HTTP简单认证登录
+}
